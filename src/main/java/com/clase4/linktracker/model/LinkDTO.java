@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Maxi Maubecin
+ */
 @Getter @Setter
 public class LinkDTO {
     private Integer linkId;

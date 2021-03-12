@@ -6,6 +6,9 @@ import com.clase4.linktracker.exception.LinkNotFoundException;
 import com.clase4.linktracker.model.LinkDTO;
 import com.clase4.linktracker.model.MetricDTO;
 
+/**
+ * @author Maxi Maubecin
+ */
 public interface ILinkTrackerService {
     LinkDTO createLink(LinkDTO linkDTO) throws InvalidURLException;
 

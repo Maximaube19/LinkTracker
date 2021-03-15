@@ -10,6 +10,9 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Maxi Maubecin
+ */
 @Service
 public class LinkTrackerServiceImpl implements ILinkTrackerService{
 
@@ -18,22 +21,16 @@ public class LinkTrackerServiceImpl implements ILinkTrackerService{
 
     @Override
     public LinkDTO createLink(LinkDTO linkDTO) throws InvalidURLException {
-        UrlValidator urlValidator = new UrlValidator();
-        if(!urlValidator.isValid(linkDTO.getUrl())){
-            throw new InvalidURLException("La URL: " + linkDTO.getUrl() + " no es válida");
-        }
+        validateLink(linkDTO);
         return repository.createLink(linkDTO);
     }
 
     @Override
     public String getUrl(Integer linkId, String password) throws LinkNotFoundException, InvalidURLException, InvalidPasswordException {
         LinkDTO link = repository.getLink(linkId);
-        UrlValidator urlValidator = new UrlValidator();
-        if(!urlValidator.isValid(link.getUrl())){
-            throw new InvalidURLException("La URL: " + link.getUrl() + " no es válida");
-        }
+        validateLink(link);
         if(!link.getPassword().equals(password)){
-            throw new InvalidPasswordException("¡La contraseña es inválida!");
+            throw new InvalidPasswordException("The password is incorrect");
         }
         link.setRedirectCount(link.getRedirectCount()+1);
         repository.updateLink(link);
@@ -51,6 +48,13 @@ public class LinkTrackerServiceImpl implements ILinkTrackerService{
         LinkDTO link = repository.getLink(linkId);
         link.setValid(false);
         repository.updateLink(link);
-        return "¡Link invalidado con éxito!";
+        return "Link successfully invalidated";
+    }
+
+    private void validateLink(LinkDTO linkDTO) throws InvalidURLException {
+        UrlValidator urlValidator = new UrlValidator();
+        if (!urlValidator.isValid(linkDTO.getUrl())) {
+            throw new InvalidURLException("The URL: " + linkDTO.getUrl() + " is not valid");
+        }
     }
 }

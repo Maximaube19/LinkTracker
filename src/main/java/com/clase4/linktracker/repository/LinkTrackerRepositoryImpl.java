@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Maxi Maubecin
+ */
 @Repository
 public class LinkTrackerRepositoryImpl implements ILinkTrackerRepository{
 
@@ -29,7 +32,7 @@ public class LinkTrackerRepositoryImpl implements ILinkTrackerRepository{
             if (link.getLinkId().equals(linkId) && link.isValid())
                 return link;
         }
-        throw new LinkNotFoundException("No se encontró el Link con ID: " + linkId);
+        throw new LinkNotFoundException("Link with ID: " + linkId + " is not found");
     }
 
     @Override
@@ -40,6 +43,6 @@ public class LinkTrackerRepositoryImpl implements ILinkTrackerRepository{
                 return true;
             }
         }
-        throw new LinkNotFoundException("No se encontró el Link con ID: " + linkDTO.getLinkId());
+        throw new LinkNotFoundException("Link with ID: " + linkDTO.getLinkId() + " is not found");
     }
 }
